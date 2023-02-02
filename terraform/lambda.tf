@@ -12,6 +12,21 @@ module "robo_trade1_lambda" {
 
   source_path = "../robo_trade1"
 
+  attach_policy_statements = true
+  policy_statements = {
+    dynamodb = {
+      effect    = "Allow",
+      actions   = ["dynamodb:BatchGetItem",
+                  "dynamodb:GetItem",
+                  "dynamodb:Query",
+                  "dynamodb:Scan",
+                  "dynamodb:BatchWriteItem",
+                  "dynamodb:PutItem",
+                  "dynamodb:UpdateItem"],
+      resources = [module.robo_trade1_dynamodb_table.dynamodb_table_arn]
+    }
+  }
+
   environment_variables = {
     INTERVAL = ""
   }
